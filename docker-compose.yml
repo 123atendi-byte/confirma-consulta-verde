@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  anna-confirma-consulta:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: 123atendi/anna-confirma-consulta:latest
+    container_name: anna-confirma-consulta
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    networks:
+      - anna-network
+
+networks:
+  anna-network:
+    driver: bridge
