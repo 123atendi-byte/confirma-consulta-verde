@@ -38,10 +38,24 @@ const Index = () => {
           setIsConfirmed(true);
         }
       } else {
-        setError(data.erro || 'Não foi possível carregar os dados da consulta.');
+        const errorMsg = data.erro || 'Não foi possível carregar os dados da consulta.';
+        // Substituir mensagem de token expirado/utilizado
+        const customMsg = errorMsg.toLowerCase().includes('token') &&
+                         (errorMsg.toLowerCase().includes('utilizado') ||
+                          errorMsg.toLowerCase().includes('expirado'))
+          ? 'Esta consulta já foi confirmada ou reagendada. Em caso de dúvidas chame a clínica no Whatsapp.'
+          : errorMsg;
+        setError(customMsg);
       }
     } catch (err: any) {
-      setError(err.message || 'Erro ao carregar dados da consulta.');
+      const errorMsg = err.message || 'Erro ao carregar dados da consulta.';
+      // Substituir mensagem de token expirado/utilizado
+      const customMsg = errorMsg.toLowerCase().includes('token') &&
+                       (errorMsg.toLowerCase().includes('utilizado') ||
+                        errorMsg.toLowerCase().includes('expirado'))
+        ? 'Esta consulta já foi confirmada ou reagendada. Em caso de dúvidas chame a clínica no Whatsapp.'
+        : errorMsg;
+      setError(customMsg);
     } finally {
       setLoading(false);
     }
